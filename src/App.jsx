@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import Services from './components/services/Services';
+import { store } from './redux/store';
 
 class App extends React.Component {
   /**
@@ -20,7 +21,14 @@ class App extends React.Component {
     axios
       .get(servicesUrl)
       .then((response) => {
-        console.log(response.data);
+        if (response.data && response.data.services) {
+          store.dispatch({
+            type: 'SERVICES_SET_SERVICES',
+            services: response.data.services,
+          });
+        } else {
+          this.componentDidCatch('No services received');
+        }
       })
       .catch((error) => {
         this.componentDidCatch(error);
