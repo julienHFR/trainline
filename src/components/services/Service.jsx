@@ -4,6 +4,7 @@ import { withRouter } from 'react-router-dom';
 import axios from 'axios';
 import { store } from '../../redux/store';
 import getTimeFromDateString from '../../utils/date';
+import setError from '../../utils/error';
 
 const platformHeader = 'Plat. ';
 const delayedString = 'Delayed';
@@ -47,15 +48,22 @@ class Service extends React.Component {
   }
 
   routeToCallings() {
-    axios.get(this.props.data.callingPatternUrl).then((response) => {
-      if (response.data && response.data.service) {
-        store.dispatch({
-          type: 'SET_CALLINGS',
-          callings: response.data.service,
-        });
-        this.props.history.push('/callings');
-      }
-    });
+    axios
+      .get(this.props.data.callingPatternUrl)
+      .then((response) => {
+        if (response.data && response.data.service) {
+          store.dispatch({
+            type: 'SET_CALLINGS',
+            callings: response.data.service,
+          });
+          this.props.history.push('/callings');
+        } else {
+          setError('No callings received');
+        }
+      })
+      .catch((error) => {
+        setError(error.toString());
+      });
   }
 
   renderDelay() {

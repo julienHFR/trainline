@@ -9,3 +9,7 @@ export function setCallings(state, callings) {
 export function setServices(state, services) {
   return state.set('services', services);
 }
+
+export function setError(state, error) {
+  return state.set('error', error);
+}

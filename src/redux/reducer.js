@@ -1,4 +1,4 @@
-import { setCallings, setServices, INITIAL_STATE } from './actions';
+import { setCallings, setServices, setError, INITIAL_STATE } from './actions';
 
 // Mapping between the actions and the actual functions
 export default function reducer(state = INITIAL_STATE, action) {
@@ -7,6 +7,8 @@ export default function reducer(state = INITIAL_STATE, action) {
       return setCallings(state, action.callings);
     case 'SET_SERVICES':
       return setServices(state, action.services);
+    case 'SET_ERROR':
+      return setError(state, action.error);
     default:
       return state;
   }
