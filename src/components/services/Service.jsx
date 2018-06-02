@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import { withRouter } from 'react-router-dom';
+import axios from 'axios';
+import { store } from '../../redux/store';
 import getTimeFromDateString from '../../utils/date';
 
 const platformHeader = 'Plat. ';
@@ -10,8 +12,8 @@ const expectedString = 'Exp. ';
 const toBeDisplayedString = 'TBD';
 
 class Service extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.routeToCallings = this.routeToCallings.bind(this);
   }
 
@@ -45,7 +47,15 @@ class Service extends React.Component {
   }
 
   routeToCallings() {
-    this.props.history.push(`/callings?url=${this.props.data.callingPatternUrl}`);
+    axios.get(this.props.data.callingPatternUrl).then((response) => {
+      if (response.data && response.data.service) {
+        store.dispatch({
+          type: 'CALLINGS_SET_CALLINGS',
+          callings: response.data.service,
+        });
+        this.props.history.push('/callings');
+      }
+    });
   }
 
   renderDelay() {
