@@ -25,7 +25,7 @@ class App extends React.Component {
       .then((response) => {
         if (response.data && response.data.services) {
           store.dispatch({
-            type: 'SERVICES_SET_SERVICES',
+            type: 'SET_SERVICES',
             services: response.data.services,
           });
         } else {

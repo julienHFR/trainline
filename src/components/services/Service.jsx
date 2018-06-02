@@ -50,7 +50,7 @@ class Service extends React.Component {
     axios.get(this.props.data.callingPatternUrl).then((response) => {
       if (response.data && response.data.service) {
         store.dispatch({
-          type: 'CALLINGS_SET_CALLINGS',
+          type: 'SET_CALLINGS',
           callings: response.data.service,
         });
         this.props.history.push('/callings');

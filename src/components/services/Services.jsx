@@ -37,7 +37,7 @@ const Table = styled.table`
  */
 function mapStateToProps(state) {
   return {
-    services: state.services.get('services'),
+    services: state.get('services'),
   };
 }
 

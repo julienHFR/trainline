@@ -32,7 +32,7 @@ class Callings extends React.Component {
  */
 function mapStateToProps(state) {
   return {
-    callings: state.callings.get('callings'),
+    callings: state.get('callings'),
   };
 }
 
