@@ -5,12 +5,20 @@ import getTimeFromDateString from '../../utils/date';
 const platformHeader = 'Plat. ';
 const delayedString = 'Delayed';
 const onTimeString = 'On time';
+const expectedString = 'Exp. ';
+const toBeDisplayedString = 'TBD';
 
 class Service extends React.Component {
+  constructor() {
+    super();
+    this.routeToCallings = this.routeToCallings.bind(this);
+  }
+
   getScheduledTime() {
     if (this.props.data.scheduledInfo) {
       return getTimeFromDateString(this.props.data.scheduledInfo.scheduledTime);
     }
+    return toBeDisplayedString;
   }
 
   getScheduledPlatform() {
@@ -22,33 +30,39 @@ class Service extends React.Component {
       return (
         platformHeader + this.props.data.realTimeUpdatesInfo.realTimeServiceInfo.realTimePlatform
       );
-    } else if (this.props.data.scheduledInfo) {
+    } else if (this.props.data.scheduledInfo && this.props.data.scheduledInfo.scheduledPlatform) {
       return platformHeader + this.props.data.scheduledInfo.scheduledPlatform;
     }
+    return platformHeader + toBeDisplayedString;
   }
 
   getDestination() {
     if (this.props.data.destinationList && this.props.data.destinationList[0]) {
       return this.props.data.destinationList[0].crs;
     }
+    return toBeDisplayedString;
+  }
+
+  routeToCallings() {
+    console.log(`route ${this.props.data.callingPatternUrl}`);
   }
 
   renderDelay() {
     if (
       this.props.data.realTimeUpdatesInfo &&
-      this.props.data.realTimeUpdatesInfo.realTimeServiceInfo
+      this.props.data.realTimeUpdatesInfo.realTimeServiceInfo &&
+      this.props.data.scheduledInfo &&
+      this.props.data.realTimeUpdatesInfo.realTimeServiceInfo.realTime ===
+        this.props.data.scheduledInfo.scheduledTime
     ) {
-      if (this.props.data.realTimeUpdatesInfo.realTimeServiceInfo.realTimeFlag === delayedString) {
-        return <Delayed>{delayedString}</Delayed>;
-      } else if (
-        this.props.data.scheduledInfo &&
-        this.props.data.realTimeUpdatesInfo.realTimeServiceInfo.realTime !==
-          this.props.data.scheduledInfo.scheduledTime
-      ) {
-        return <Delayed>Expected</Delayed>;
-      }
       return <OnTime>{onTimeString}</OnTime>;
+    } else if (this.props.data.scheduledInfo && this.props.data.scheduledInfo.scheduledTime) {
+      const expectedTimeString =
+        expectedString +
+        getTimeFromDateString(this.props.data.realTimeUpdatesInfo.realTimeServiceInfo.realTime);
+      return <Delayed>{expectedTimeString}</Delayed>;
     }
+    return <Delayed>{delayedString}</Delayed>;
   }
 
   /**
@@ -56,31 +70,29 @@ class Service extends React.Component {
    */
   render() {
     return (
-      <tr>
-        <ServiceItem>
-          <FirstRow>
-            <ScheduledTime>{this.getScheduledTime()}</ScheduledTime>
-          </FirstRow>
-          <SecondRow>
-            <Destination>{this.getDestination()}</Destination>
-            <Operator>{this.props.data.serviceOperator}</Operator>
-          </SecondRow>
-          <ThirdRow>
-            <ScheduledPlatform>{this.getScheduledPlatform()}</ScheduledPlatform>
-            {this.renderDelay()}
-          </ThirdRow>
-          <FourthRow>
-            <Arrow>&gt;</Arrow>
-          </FourthRow>
-        </ServiceItem>
-      </tr>
+      <ServiceItem onClick={this.routeToCallings}>
+        <FirstRow>
+          <ScheduledTime>{this.getScheduledTime()}</ScheduledTime>
+        </FirstRow>
+        <SecondRow>
+          <Destination>{this.getDestination()}</Destination>
+          <Operator>{this.props.data.serviceOperator}</Operator>
+        </SecondRow>
+        <ThirdRow>
+          <ScheduledPlatform>{this.getScheduledPlatform()}</ScheduledPlatform>
+          {this.renderDelay()}
+        </ThirdRow>
+        <FourthRow>
+          <Arrow>&gt;</Arrow>
+        </FourthRow>
+      </ServiceItem>
     );
   }
 }
 
 export default Service;
 
-const ServiceItem = styled.div`
+const ServiceItem = styled.tr`
   border: 1px solid #f4f4f4;
   background-color: #ffffff;
 
@@ -100,7 +112,7 @@ const SecondRow = styled.td`
 `;
 
 const ThirdRow = styled.td`
-  width: 70px;
+  width: 95px;
 `;
 
 const FourthRow = styled.td`

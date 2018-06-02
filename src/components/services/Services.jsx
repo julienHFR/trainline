@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import styled from 'styled-components';
 import Service from './Service';
 
 class Services extends React.Component {
@@ -15,9 +16,17 @@ class Services extends React.Component {
    * Render Services
    */
   render() {
-    return <table>{this.renderServices()}</table>;
+    return (
+      <Table>
+        <tbody>{this.renderServices()}</tbody>
+      </Table>
+    );
   }
 }
+
+const Table = styled.table`
+  border-collapse: collapse;
+`;
 
 /**
  * Links the needed state properties to the component
