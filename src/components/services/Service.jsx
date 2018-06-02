@@ -56,13 +56,24 @@ class Service extends React.Component {
    */
   render() {
     return (
-      <ServiceItem>
-        <div className="scheduledTime">{this.getScheduledTime()}</div>
-        <div className="destination">{this.getDestination()}</div>
-        <div className="operator">{this.props.data.serviceOperator}</div>
-        <div className="scheduledPlatform">{this.getScheduledPlatform()}</div>
-        <div className="delay">{this.renderDelay()}</div>
-      </ServiceItem>
+      <tr>
+        <ServiceItem>
+          <FirstRow>
+            <ScheduledTime>{this.getScheduledTime()}</ScheduledTime>
+          </FirstRow>
+          <SecondRow>
+            <Destination>{this.getDestination()}</Destination>
+            <Operator>{this.props.data.serviceOperator}</Operator>
+          </SecondRow>
+          <ThirdRow>
+            <ScheduledPlatform>{this.getScheduledPlatform()}</ScheduledPlatform>
+            {this.renderDelay()}
+          </ThirdRow>
+          <FourthRow>
+            <Arrow>&gt;</Arrow>
+          </FourthRow>
+        </ServiceItem>
+      </tr>
     );
   }
 }
@@ -74,10 +85,52 @@ const ServiceItem = styled.div`
   background-color: #ffffff;
 `;
 
+const FirstRow = styled.td`
+  width: 70px;
+  text-align: center;
+`;
+
+const SecondRow = styled.td`
+  width: 150px;
+`;
+
+const ThirdRow = styled.td`
+  width: 70px;
+`;
+
+const FourthRow = styled.td`
+  width: 20px;
+  position: relative;
+`;
+
 const Delayed = styled.div`
   color: #ea2d00;
 `;
 
 const OnTime = styled.div`
   color: #49863f;
+`;
+
+const ScheduledTime = styled.div`
+  color: #000000;
+  font-weight: bold;
+`;
+
+const Destination = styled.div`
+  color: #000000;
+`;
+
+const Operator = styled.div`
+  color: #8d9190;
+`;
+
+const ScheduledPlatform = styled.div`
+  color: #000000;
+`;
+
+const Arrow = styled.div`
+  color: #332478;
+  position: absolute;
+  font-weight: bold;
+  top: 25%;
 `;

@@ -15,7 +15,7 @@ class Services extends React.Component {
    * Render Services
    */
   render() {
-    return <div className="services">{this.renderServices()}</div>;
+    return <table>{this.renderServices()}</table>;
   }
 }
 
