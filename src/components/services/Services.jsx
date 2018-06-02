@@ -8,7 +8,10 @@ class Services extends React.Component {
     const services = [];
     if (this.props.services) {
       this.props.services.map(service =>
-        services.push(<Service data={service} key={service.serviceIdentifier} />));
+        services.push(<Service
+          data={service}
+          key={service.serviceIdentifier + service.destinationList[0].crs}
+        />));
     }
     return services;
   }
