@@ -83,6 +83,11 @@ export default Service;
 const ServiceItem = styled.div`
   border: 1px solid #f4f4f4;
   background-color: #ffffff;
+
+  &:hover {
+    background: #d7f3ec;
+    border-left: 3px solid #234775;
+  }
 `;
 
 const FirstRow = styled.td`
