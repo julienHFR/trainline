@@ -25,7 +25,7 @@ class Services extends React.Component {
         }
       })
       .catch((error) => {
-        setError(error);
+        setError(error.toString());
       });
   }
 
