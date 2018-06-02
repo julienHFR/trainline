@@ -1,6 +1,8 @@
 import React from 'react';
 import axios from 'axios';
+import { Switch, Route } from 'react-router-dom';
 import Services from './components/services/Services';
+import Callings from './components/callings/Callings';
 import { store } from './redux/store';
 
 class App extends React.Component {
@@ -51,9 +53,10 @@ class App extends React.Component {
       return <h1>{this.state.errorString.toString()}</h1>;
     }
     return (
-      <div className="main">
-        <Services />
-      </div>
+      <Switch>
+        <Route exact path="/" component={Services} />
+        <Route path="/callings" component={Callings} />
+      </Switch>
     );
   }
 }

@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { withRouter } from 'react-router-dom';
 import getTimeFromDateString from '../../utils/date';
 
 const platformHeader = 'Plat. ';
@@ -44,7 +45,7 @@ class Service extends React.Component {
   }
 
   routeToCallings() {
-    console.log(`route ${this.props.data.callingPatternUrl}`);
+    this.props.history.push(`/callings?url=${this.props.data.callingPatternUrl}`);
   }
 
   renderDelay() {
@@ -90,7 +91,7 @@ class Service extends React.Component {
   }
 }
 
-export default Service;
+export default withRouter(Service);
 
 const ServiceItem = styled.tr`
   border: 1px solid #f4f4f4;
