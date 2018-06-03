@@ -8,8 +8,15 @@ class Callings extends React.Component {
   renderCallings() {
     const callings = [];
     if (this.props.callings && this.props.callings.stops) {
-      this.props.callings.stops.map(calling =>
-        callings.push(<Calling data={calling} key={calling.location.crs} />));
+      this.props.callings.stops.map((calling) => {
+        let position;
+        if (calling.location.crs === this.props.callings.serviceOrigins[0]) {
+          position = 'start';
+        } else if (calling.location.crs === this.props.callings.serviceDestinations[0]) {
+          position = 'stop';
+        }
+        return callings.push(<Calling data={calling} key={calling.location.crs} position={position} />);
+      });
     }
     return callings;
   }
@@ -20,16 +27,16 @@ class Callings extends React.Component {
   render() {
     if (this.props.callings) {
       return (
-        <div className="callings">
-          <div className="header">
+        <CallingsContainer>
+          <Header>
             <Icon src="http://localhost:9000/train.png" />
             <From>{this.props.callings.serviceOrigins[0]}</From>
             <ToString>{text.to}</ToString>
             <To>{this.props.callings.serviceDestinations[0]}</To>
             <Operator>{text.operated + this.props.callings.serviceOperator}</Operator>
-          </div>
+          </Header>
           {this.renderCallings()}
-        </div>
+        </CallingsContainer>
       );
     }
     return null;
@@ -47,6 +54,14 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps)(Callings);
+
+const CallingsContainer = styled.div`
+  background-color: #ffffff;
+`;
+
+const Header = styled.div`
+  margin-bottom: 30px;
+`;
 
 const Icon = styled.img`
   float: left;
