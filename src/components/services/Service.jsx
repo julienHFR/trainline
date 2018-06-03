@@ -8,11 +8,18 @@ import setError from '../../utils/error';
 import text from '../../text/text';
 
 class Service extends React.Component {
+  /**
+   * Constructor
+   * @param {*} props
+   */
   constructor(props) {
     super(props);
     this.routeToCallings = this.routeToCallings.bind(this);
   }
 
+  /**
+   * get and format scheduled time
+   */
   getScheduledTime() {
     if (this.props.data.scheduledInfo) {
       return getTimeFromDateString(this.props.data.scheduledInfo.scheduledTime);
@@ -20,7 +27,11 @@ class Service extends React.Component {
     return text.toBeDisplayed;
   }
 
-  getScheduledPlatform() {
+  /**
+   * get and format platform
+   * checks real platform first then scheduled platform
+   */
+  getPlatform() {
     if (
       this.props.data.realTimeUpdatesInfo &&
       this.props.data.realTimeUpdatesInfo.realTimeServiceInfo &&
@@ -35,6 +46,9 @@ class Service extends React.Component {
     return text.platform + text.toBeDisplayed;
   }
 
+  /**
+   * get destination
+   */
   getDestination() {
     if (this.props.data.destinationList && this.props.data.destinationList[0]) {
       return this.props.data.destinationList[0].crs;
@@ -42,6 +56,9 @@ class Service extends React.Component {
     return text.toBeDisplayed;
   }
 
+  /**
+   * When clicking on a service query for the callings to set it in the state and route to the callings page
+   */
   routeToCallings() {
     axios
       .get(this.props.data.callingPatternUrl)
@@ -62,6 +79,9 @@ class Service extends React.Component {
       });
   }
 
+  /**
+   * Calculat delay and create corresponding component
+   */
   renderDelay() {
     if (
       this.props.data.realTimeUpdatesInfo &&
@@ -97,7 +117,7 @@ class Service extends React.Component {
           <Operator>{this.props.data.serviceOperator}</Operator>
         </SecondRow>
         <ThirdRow>
-          <ScheduledPlatform>{this.getScheduledPlatform()}</ScheduledPlatform>
+          <ScheduledPlatform>{this.getPlatform()}</ScheduledPlatform>
           {this.renderDelay()}
         </ThirdRow>
         <FourthRow>

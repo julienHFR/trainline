@@ -29,6 +29,9 @@ class Services extends React.Component {
       });
   }
 
+  /**
+   * Go through services and create component for each
+   */
   renderServices() {
     const services = [];
     if (this.props.services) {
@@ -44,6 +47,7 @@ class Services extends React.Component {
     }
     return services;
   }
+
   /**
    * Render Services
    */

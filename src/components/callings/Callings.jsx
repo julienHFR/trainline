@@ -15,6 +15,9 @@ class Callings extends React.Component {
     this.pollCallings();
   }
 
+  /**
+   * Poll api for real time
+   */
   pollCallings() {
     if (this.props.url) {
       setTimeout(() => {
@@ -27,10 +30,13 @@ class Callings extends React.Component {
             });
           }
         });
-      }, 1000);
+      }, 60000);
     }
   }
 
+  /**
+   * Calculate position and sttus for each calling and create the component
+   */
   renderCallings() {
     const callings = [];
     if (this.props.callings && this.props.callings.stops) {

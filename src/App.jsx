@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import { Switch, Route } from 'react-router-dom';
 import { ConnectedRouter } from 'react-router-redux';
 import createHistory from 'history/createBrowserHistory';
+import axios from 'axios';
+import { store } from './redux/store';
 import Services from './components/services/Services';
 import Callings from './components/callings/Callings';
 
