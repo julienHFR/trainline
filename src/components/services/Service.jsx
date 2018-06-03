@@ -5,12 +5,7 @@ import axios from 'axios';
 import { store } from '../../redux/store';
 import getTimeFromDateString from '../../utils/date';
 import setError from '../../utils/error';
-
-const platformHeader = 'Plat. ';
-const delayedString = 'Delayed';
-const onTimeString = 'On time';
-const expectedString = 'Exp. ';
-const toBeDisplayedString = 'TBD';
+import text from '../../text/text';
 
 class Service extends React.Component {
   constructor(props) {
@@ -22,7 +17,7 @@ class Service extends React.Component {
     if (this.props.data.scheduledInfo) {
       return getTimeFromDateString(this.props.data.scheduledInfo.scheduledTime);
     }
-    return toBeDisplayedString;
+    return text.toBeDisplayed;
   }
 
   getScheduledPlatform() {
@@ -32,19 +27,19 @@ class Service extends React.Component {
       this.props.data.realTimeUpdatesInfo.realTimeServiceInfo.realTimePlatform
     ) {
       return (
-        platformHeader + this.props.data.realTimeUpdatesInfo.realTimeServiceInfo.realTimePlatform
+        text.platform + this.props.data.realTimeUpdatesInfo.realTimeServiceInfo.realTimePlatform
       );
     } else if (this.props.data.scheduledInfo && this.props.data.scheduledInfo.scheduledPlatform) {
-      return platformHeader + this.props.data.scheduledInfo.scheduledPlatform;
+      return text.platform + this.props.data.scheduledInfo.scheduledPlatform;
     }
-    return platformHeader + toBeDisplayedString;
+    return text.platform + text.toBeDisplayed;
   }
 
   getDestination() {
     if (this.props.data.destinationList && this.props.data.destinationList[0]) {
       return this.props.data.destinationList[0].crs;
     }
-    return toBeDisplayedString;
+    return text.toBeDisplayed;
   }
 
   routeToCallings() {
@@ -74,14 +69,14 @@ class Service extends React.Component {
       this.props.data.realTimeUpdatesInfo.realTimeServiceInfo.realTime ===
         this.props.data.scheduledInfo.scheduledTime
     ) {
-      return <OnTime>{onTimeString}</OnTime>;
+      return <OnTime>{text.onTime}</OnTime>;
     } else if (this.props.data.scheduledInfo && this.props.data.scheduledInfo.scheduledTime) {
       const expectedTimeString =
-        expectedString +
+        text.expected +
         getTimeFromDateString(this.props.data.realTimeUpdatesInfo.realTimeServiceInfo.realTime);
       return <Delayed>{expectedTimeString}</Delayed>;
     }
-    return <Delayed>{delayedString}</Delayed>;
+    return <Delayed>{text.delayed}</Delayed>;
   }
 
   /**
