@@ -101,6 +101,11 @@ class Calling extends React.Component {
       <CallingItem>
         <Time>{this.getTime()}</Time>
         <Drawing src={this.getCallingType()} stop={this.props.position === 'stop'} />
+        <Live
+          station={this.props.status === 'station'}
+          after={this.props.status === 'after'}
+          src="http://localhost:9000/live.png"
+        />
         <Station>
           <StationName>{this.getStation()}</StationName>
           <Delay>{this.getDelay()}</Delay>
@@ -135,6 +140,25 @@ const Drawing = styled.img`
     stop &&
     `
   clip: rect(0px, 22px, 16px, 0px);
+  `};
+`;
+
+const Live = styled.img`
+  display: none;
+  position: absolute;
+  left: 85px;
+
+  ${({ station }) =>
+    station &&
+    `
+  display: block;
+  `};
+
+  ${({ after }) =>
+    after &&
+    `
+  display: block;
+  top: 18px;
   `};
 `;
 

@@ -8,14 +8,54 @@ class Callings extends React.Component {
   renderCallings() {
     const callings = [];
     if (this.props.callings && this.props.callings.stops) {
-      this.props.callings.stops.map((calling) => {
+      this.props.callings.stops.map((calling, index) => {
+        let status;
+        if (
+          index === 0 &&
+          calling.departure &&
+          calling.departure.realTime &&
+          calling.departure.realTime.realTimeServiceInfo &&
+          !calling.departure.realTime.realTimeServiceInfo.hasDeparted
+        ) {
+          status = 'station';
+        } else if (
+          index === this.props.callings.stops.length &&
+          calling.arrival &&
+          calling.arrival.realTime &&
+          calling.arrival.realTime.realTimeServiceInfo &&
+          !calling.arrival.realTime.realTimeServiceInfo.hasArrived
+        ) {
+          status = 'station';
+        } else if (
+          calling.arrival &&
+          calling.arrival.realTime &&
+          calling.arrival.realTime.realTimeServiceInfo &&
+          calling.departure &&
+          calling.departure.realTime &&
+          calling.departure.realTime.realTimeServiceInfo
+        ) {
+          if (
+            calling.arrival.realTime.realTimeServiceInfo.hasArrived &&
+            !calling.departure.realTime.realTimeServiceInfo.hasDeparted
+          ) {
+            status = 'station';
+          } else if (
+            new Date(calling.departure.realTime.realTimeServiceInfo.realTime) < new Date() &&
+            this.props.callings.stops[index + 1].arrival &&
+            this.props.callings.stops[index + 1].arrival.realTime &&
+            this.props.callings.stops[index + 1].arrival.realTime.realTimeServiceInfo &&
+            new Date(this.props.callings.stops[index + 1].arrival.realTime.realTimeServiceInfo.realTime) > new Date()
+          ) {
+            status = 'after';
+          }
+        }
         let position;
         if (calling.location.crs === this.props.callings.serviceOrigins[0]) {
           position = 'start';
         } else if (calling.location.crs === this.props.callings.serviceDestinations[0]) {
           position = 'stop';
         }
-        return callings.push(<Calling data={calling} key={calling.location.crs} position={position} />);
+        return callings.push(<Calling data={calling} key={calling.location.crs} position={position} status={status} />);
       });
     }
     return callings;
