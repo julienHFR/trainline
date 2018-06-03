@@ -32,11 +32,15 @@ class Services extends React.Component {
   renderServices() {
     const services = [];
     if (this.props.services) {
-      this.props.services.map(service =>
-        services.push(<Service
-          data={service}
-          key={service.serviceIdentifier + service.destinationList[0].crs}
-        />));
+      this.props.services.map((service) => {
+        if (service.transportMode === 'TRAIN') {
+          return services.push(<Service
+            data={service}
+            key={service.serviceIdentifier + service.destinationList[0].crs}
+          />);
+        }
+        return null;
+      });
     }
     return services;
   }
