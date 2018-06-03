@@ -4,6 +4,9 @@ import getTimeFromDateString from '../../utils/date';
 import text from '../../text/text';
 
 class Calling extends React.Component {
+  /**
+   * Check which time is available and format it
+   */
   getTime() {
     if (
       this.props.data.arrival &&
@@ -17,7 +20,7 @@ class Calling extends React.Component {
       this.props.data.arrival.scheduled &&
       this.props.data.arrival.scheduled.scheduledTime
     ) {
-      return getTimeFromDateString(this.props.data.departure.scheduled.scheduledTime);
+      return getTimeFromDateString(this.props.data.arrival.scheduled.scheduledTime);
     } else if (
       this.props.data.departure &&
       this.props.data.departure.realTime &&
@@ -35,6 +38,9 @@ class Calling extends React.Component {
     return 'unknown';
   }
 
+  /**
+   * get station name
+   */
   getStation() {
     if (this.props.data.location && this.props.data.location.crs) {
       return this.props.data.location.crs;
@@ -42,6 +48,9 @@ class Calling extends React.Component {
     return 'unknown';
   }
 
+  /**
+   * Calculate delay and format it
+   */
   getDelay() {
     if (
       this.props.data.departure &&
@@ -86,6 +95,9 @@ class Calling extends React.Component {
     return 'unknown';
   }
 
+  /**
+   * Determine which image to use
+   */
   getCallingType() {
     if (this.props.position) {
       return 'http://localhost:9000/callingFull.png';

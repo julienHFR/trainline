@@ -1,10 +1,36 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
+import axios from 'axios';
+import { store } from '../../redux/store';
 import Calling from './Calling';
 import text from '../../text/text';
 
 class Callings extends React.Component {
+  componentDidMount() {
+    this.pollCallings();
+  }
+
+  componentDidUpdate() {
+    this.pollCallings();
+  }
+
+  pollCallings() {
+    if (this.props.url) {
+      setTimeout(() => {
+        axios.get(this.props.url).then((response) => {
+          if (response.data && response.data.service) {
+            store.dispatch({
+              type: 'SET_CALLINGS',
+              callings: response.data.service,
+              url: this.props.url,
+            });
+          }
+        });
+      }, 1000);
+    }
+  }
+
   renderCallings() {
     const callings = [];
     if (this.props.callings && this.props.callings.stops) {
@@ -18,6 +44,15 @@ class Callings extends React.Component {
           !calling.departure.realTime.realTimeServiceInfo.hasDeparted
         ) {
           status = 'station';
+        } else if (
+          index === 0 &&
+          calling.departure &&
+          calling.departure.realTime &&
+          calling.departure.realTime.realTimeServiceInfo &&
+          calling.departure.realTime.realTimeServiceInfo.hasDeparted &&
+          new Date(this.props.callings.stops[index + 1].arrival.realTime.realTimeServiceInfo.realTime) > new Date()
+        ) {
+          status = 'after';
         } else if (
           index === this.props.callings.stops.length &&
           calling.arrival &&
@@ -90,6 +125,7 @@ class Callings extends React.Component {
 function mapStateToProps(state) {
   return {
     callings: state.get('callings'),
+    url: state.get('url'),
   };
 }
 

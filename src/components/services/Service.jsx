@@ -50,6 +50,7 @@ class Service extends React.Component {
           store.dispatch({
             type: 'SET_CALLINGS',
             callings: response.data.service,
+            url: this.props.data.callingPatternUrl,
           });
           this.props.history.push('/callings');
         } else {
@@ -70,7 +71,10 @@ class Service extends React.Component {
         this.props.data.scheduledInfo.scheduledTime
     ) {
       return <OnTime>{text.onTime}</OnTime>;
-    } else if (this.props.data.scheduledInfo && this.props.data.scheduledInfo.scheduledTime) {
+    } else if (
+      this.props.data.realTimeUpdatesInfo &&
+      this.props.data.realTimeUpdatesInfo.realTimeServiceInfo
+    ) {
       const expectedTimeString =
         text.expected +
         getTimeFromDateString(this.props.data.realTimeUpdatesInfo.realTimeServiceInfo.realTime);
