@@ -5,6 +5,7 @@ import axios from 'axios';
 import { store } from '../../redux/store';
 import Calling from './Calling';
 import text from '../../text/text';
+import setError from '../../utils/error';
 
 class Callings extends React.Component {
   componentDidMount() {
@@ -21,15 +22,22 @@ class Callings extends React.Component {
   pollCallings() {
     if (this.props.url) {
       setTimeout(() => {
-        axios.get(this.props.url).then((response) => {
-          if (response.data && response.data.service) {
-            store.dispatch({
-              type: 'SET_CALLINGS',
-              callings: response.data.service,
-              url: this.props.url,
-            });
-          }
-        });
+        axios
+          .get(this.props.url)
+          .then((response) => {
+            if (response.data && response.data.service) {
+              store.dispatch({
+                type: 'SET_CALLINGS',
+                callings: response.data.service,
+                url: this.props.url,
+              });
+            } else {
+              setError('No callings received');
+            }
+          })
+          .catch((error) => {
+            setError(error.toString());
+          });
       }, 60000);
     }
   }
