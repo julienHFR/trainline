@@ -96,7 +96,12 @@ class Callings extends React.Component {
         } else if (calling.location.crs === this.props.callings.serviceDestinations[0]) {
           position = 'stop';
         }
-        return callings.push(<Calling data={calling} key={calling.location.crs} position={position} status={status} />);
+        return callings.push(<Calling
+          data={calling}
+          key={calling.location.crs + index}
+          position={position}
+          status={status}
+        />);
       });
     }
     return callings;
