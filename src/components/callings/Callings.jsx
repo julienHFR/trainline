@@ -99,9 +99,9 @@ class Callings extends React.Component {
           }
         }
         let position;
-        if (calling.location.crs === this.props.callings.serviceOrigins[0]) {
+        if (calling.arrival && calling.arrival.notApplicable) {
           position = 'start';
-        } else if (calling.location.crs === this.props.callings.serviceDestinations[0]) {
+        } else if (calling.departure && calling.departure.notApplicable) {
           position = 'stop';
         }
         return callings.push(<Calling

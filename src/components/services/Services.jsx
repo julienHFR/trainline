@@ -1,34 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import axios from 'axios';
 import styled from 'styled-components';
-import { store } from '../../redux/store';
 import Service from './Service';
-import setError from '../../utils/error';
 
 class Services extends React.Component {
-  /**
-   * Initialize services data into the state
-   */
-  componentWillMount() {
-    const servicesUrl = 'https://realtime.thetrainline.com/departures/wat';
-    axios
-      .get(servicesUrl)
-      .then((response) => {
-        if (response.data && response.data.services) {
-          store.dispatch({
-            type: 'SET_SERVICES',
-            services: response.data.services,
-          });
-        } else {
-          setError('No services received');
-        }
-      })
-      .catch((error) => {
-        setError(error.toString());
-      });
-  }
-
   /**
    * Go through services and create component for each
    */

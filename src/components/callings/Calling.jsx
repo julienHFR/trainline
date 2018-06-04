@@ -84,6 +84,12 @@ class Calling extends React.Component {
           this.props.data.arrival.scheduled.scheduledTime ===
           this.props.data.arrival.realTime.realTimeServiceInfo.realTime
         ) {
+          if (!this.props.data.arrival.realTime.realTimeServiceInfo.hasArrived) {
+            return (
+              text.expected +
+              getTimeFromDateString(this.props.data.arrival.realTime.realTimeServiceInfo.realTime)
+            );
+          }
           return text.onTime;
         }
         return (
