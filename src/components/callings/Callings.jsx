@@ -6,6 +6,7 @@ import { store } from '../../redux/store';
 import Calling from './Calling';
 import text from '../../text/text';
 import setError from '../../utils/error';
+import config from '../../config/config';
 
 class Callings extends React.Component {
   componentDidMount() {
@@ -38,7 +39,7 @@ class Callings extends React.Component {
           .catch((error) => {
             setError(error.toString());
           });
-      }, 60000);
+      }, config.refresh);
     }
   }
 

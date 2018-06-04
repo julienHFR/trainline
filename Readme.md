@@ -22,16 +22,12 @@ $ yarn test
 or
 $ npm run test
 
-### Distant reachable server
-
-$ yarn server
-or
-$ npm run server
-
 ### configurable
 
-Input data :
-src/data/data.json
-
-Config (Google url, Google api key, map center)
+Config :
 src/config/config.js
+
+### Content
+
+Two pages application with real time update on callings page
+(refresh rate configurable, set to every minute)
